@@ -1,31 +1,26 @@
 section .text
 global leap_year
-leap_year:
-    mov rax, rdi
-    mov rbx, 4
-    xor rdx, rdx
-    idiv rbx
-    cmp rdx, 0
-    jne false ; is not divided per 4
 
+%macro divide_by 1
     mov rax, rdi
-    mov rbx, 100
+    mov rbx, %1
     xor rdx, rdx
-    idiv rbx
-    cmp rdx, 0
+    div rbx ;idiv rbx
+    test rdx, rdx ;cmp rdx, 0
+%endmacro
+
+leap_year:
+    divide_by 4
+    jne false
+
+    divide_by 100
     jne true
 
-    mov rax, rdi
-    mov rbx, 400
-    xor rdx, rdx
-    idiv rbx
-    cmp rdx, 0
-    jne false ; is not divided per 100
-
+    divide_by 400
+    jne false
 true:    
-    mov eax, 1
-    jmp endif    
+    mov rax, 1
+    ret ;jmp endif  
 false:
-    mov eax, 0
-endif:
+    xor rax, rax ;mov eax, 0
     ret
