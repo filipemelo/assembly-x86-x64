@@ -10,17 +10,17 @@ global leap_year
 %endmacro
 
 leap_year:
-    test dil, 3 ; test rdi, 3 0b0011
+    divide_by 4
     jne false
 
     divide_by 100
     jne true
 
-    test edi, 15; 0b1111
+    divide_by 400
     jne false
 true:    
-    mov al, 1
+    mov rax, 1
     ret ;jmp endif  
 false:
     xor rax, rax ;mov eax, 0
-    ret    
+    ret
